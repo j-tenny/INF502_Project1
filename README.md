@@ -1,2 +1,3 @@
 # DNA Similarity analysis in Python
-A small class project for a program that generates matching scores for DNA strings
+## Overview
+This project implements a DNA sequence similarity analysis algorithm in Python. It allows the user to calculate two similarity metrics - number of matches and maximum contiguous chain between two DNA sequences, either provided interactively or from files.

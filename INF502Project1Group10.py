@@ -9,25 +9,84 @@
 #
 # =============================================================================
 
+import sys
 # define the main() function
 def main():
-    # prompt user to provide sequence 1
-        # error if characters other than ACGT 
-    # prompt user to provide sequence 2
-        # error if characters other than ACGT 
-    # prompt user to define the 'maximum shift'
-        # error if greater than size of smallest chain
-        # do chains need to be same size?
+    seq1, seq2, maxShift = userInputs()
+    seqMatch(seq1, seq2)
+    mostMatchesShiftAll(seq1, seq2, maxShift, verbose=True)
+    longestChainShiftAll(seq1, seq2, maxShift, verbose=True)
     # prompt user to choose between longest contiguous chain or most matches total
+    return None
 
-    #
+def userInputs():
+    def isValidSequence(sequence):
+        validChars = {'A', 'C', 'G', 'T'}
+        return all(char in validChars for char in sequence)
+
+    # prompt user to provide sequence 1
+    filePath1 = input("Please enter the file path to your .txt containing your first DNA sequence: ")
+    try:
+        with open(filePath1, 'r') as file:
+            seq1 = file.read()
+            while True:
+                if isValidSequence(seq1):
+                    print("Sequence 1 contents:")
+                    print(seq1)
+                    print('')
+                    break
+                # error if characters other than ACGT
+                else:
+                    print("Error: Invalid characters found in sequence 1.")
+                    print("Nucleotide sequences should only contain characters 'A', 'C', 'G', 'T'. ")
+                    filePath1 = input("Please try again. Enter the file path to your first DNA sequence: ")
+                    with open(filePath1, 'r') as file:
+                        seq1 = file.read()
+    except FileNotFoundError:
+        print(f"The file '{filePath1}' was not found.")
+        sys.exit()  # Exit the program
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        sys.exit()  # Exit the program
+
+    # prompt user to provide sequence 2
+    filePath2 = input("Please enter the file path to your .txt containing your second DNA sequence: ")
+    try:
+        with open(filePath2, 'r') as file:
+            seq2 = file.read()
+            while True:
+                if isValidSequence(seq2):
+                    print("Sequence 2 contents:")
+                    print(seq2)
+                    print('')
+                    break
+                # error if characters other than ACGT
+                else:
+                    print("Error: Invalid characters found in sequence 2.")
+                    print("Nucleotide sequences should only contain characters 'A', 'C', 'G', 'T'. ")
+                    filePath2 = input("Please try again. Enter the file path to your second DNA sequence: ")
+    except FileNotFoundError:
+        print(f"The file '{filePath2}' was not found.")
+        sys.exit()  # Exit the program
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        sys.exit()  # Exit the program
+
+    # prompt user to define the 'maximum shift'
+    shiftAmount = input('Maximum shift to evaluate when matching nucleotides between sequences: ')
+    try:
+        maxShift = int(shiftAmount)
+        # error if greater than size of smallest chain
+        if maxShift > min(len(seq1), len(seq2)):
+            maxShift = input("Maximum shift exceeds length of sequences. Try a smaller shift: ")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        sys.exit()  # Exit the program
+    return seq1, seq2, maxShift
 
 # define seqMatch() function that calculates and print back the count of matches without
     # any shifts done as well as if there is any chained sequences present
     # (display them seperatly)
-
-    return None
-
 def seqMatch(seq1, seq2):
 
     # calculates and prints the number of matches in original sequences 
@@ -245,9 +304,11 @@ def longestChainShiftAll(seq1,seq2,maxShift,verbose=False):
 
 # test seqMatch() function
 if __name__ == "__main__":
-    seq1 = "ACGTTACCCGTC"
-    seq2 = "GCTTCACTGTTA"
-    maxShift = 10
+    main()
+    #seq1 = "ACGTTACCCGTC"
+    #seq2 = "GCTTCACTGTTA"
+    #maxShift = 10
+    #seq1, seq2, maxShift = userInputs()
     #seqMatch(seq1, seq2)
     #mostMatchesShiftAll(seq1,seq2,maxShift,verbose=True)
-    longestChainShiftAll(seq1,seq2,maxShift,verbose=True)
+    #longestChainShiftAll(seq1,seq2,maxShift,verbose=True)

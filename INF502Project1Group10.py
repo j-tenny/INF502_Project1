@@ -1,7 +1,7 @@
 # =============================================================================
 # INF 502 - Group project 1 Basic Python Program
 # Due: Wed Oct 25, 2023 11:59
-# 
+#
 # Group members:
 #     Varun Kumar Chilukuri
 #     Skye Salganek
@@ -25,55 +25,91 @@ def userInputs():
         return all(char in validChars for char in sequence)
 
     # prompt user to provide sequence 1
-    filePath1 = input("Please enter the file path to your .txt containing your first DNA sequence: ")
-    try:
-        with open(filePath1, 'r') as file:
-            seq1 = file.read()
-            while True:
-                if isValidSequence(seq1):
-                    print("Sequence 1 contents:")
-                    print(seq1)
-                    print('')
-                    break
-                # error if characters other than ACGT
-                else:
-                    print("Error: Invalid characters found in sequence 1.")
-                    print("Nucleotide sequences should only contain characters 'A', 'C', 'G', 'T'. ")
-                    filePath1 = input("Please try again. Enter the file path to your first DNA sequence: ")
-                    with open(filePath1, 'r') as file:
-                        seq1 = file.read()
-    except FileNotFoundError:
-        print(f"The file '{filePath1}' was not found.")
-        sys.exit()  # Exit the program
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        sys.exit()  # Exit the program
+    seq1 = ""
+    while not seq1:
+        try:
+          filePath1 = input("Please enter the file path to your .txt containing your first DNA sequence: ")
+          try:
+              with open(filePath1, 'r') as file:
+                  seq1 = file.read()
+          except FileNotFoundError:
+            print(f"The file '{filePath1}' was not found. Try again!")
+          except Exception as e:
+            print(f"An error occurred: {e}") 
+        except KeyboardInterrupt:
+          print("User interrupted the input. Program exited.")
+          sys.exit() # Exit the program
+    while True:
+        if isValidSequence(seq1):
+          print("Sequence 1 contents:")
+          print(seq1)
+          print('')
+          break
+        # error if characters other than ACGT
+        else:
+          print("Error: Invalid characters found in sequence 1.")
+          print("Nucleotide sequences should only contain characters 'A', 'C', 'G', 'T'. ")
+          filePath1 = input("Please try again. Enter the file path to your first DNA sequence: ")
+          try:
+            with open(filePath1, 'r') as file:
+              seq1 = file.read()
+          except FileNotFoundError:
+            print(f"The file '{filePath1}' was not found. Try again!")
+          except Exception as e:
+            print(f"An error occurred: {e}") 
+          except KeyboardInterrupt:
+            print("User interrupted the input. Exiting.")
+            sys.exit() # Exit the program
+
 
     # prompt user to provide sequence 2
-    filePath2 = input("Please enter the file path to your .txt containing your second DNA sequence: ")
-    try:
-        with open(filePath2, 'r') as file:
-            seq2 = file.read()
-            while True:
-                if isValidSequence(seq2):
-                    print("Sequence 2 contents:")
-                    print(seq2)
-                    print('')
-                    break
-                # error if characters other than ACGT
-                else:
-                    print("Error: Invalid characters found in sequence 2.")
-                    print("Nucleotide sequences should only contain characters 'A', 'C', 'G', 'T'. ")
-                    filePath2 = input("Please try again. Enter the file path to your second DNA sequence: ")
-    except FileNotFoundError:
-        print(f"The file '{filePath2}' was not found.")
-        sys.exit()  # Exit the program
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        sys.exit()  # Exit the program
+    seq2 = ""
+    while not seq2:
+        try:
+          filePath2 = input("Please enter the file path to your .txt containing your second DNA sequence: ")
+          try:
+              with open(filePath2, 'r') as file:
+                  seq2 = file.read()
+          except FileNotFoundError:
+            print(f"The file '{filePath2}' was not found. Try again!")
+          except Exception as e:
+            print(f"An error occurred: {e}") 
+        except KeyboardInterrupt:
+          print("User interrupted the input. Program exited.")
+          sys.exit() # Exit the program
+    while True:
+        if isValidSequence(seq2):
+          print("Sequence 2 contents:")
+          print(seq2)
+          print('')
+          break
+        # error if characters other than ACGT
+        else:
+          print("Error: Invalid characters found in sequence 2.")
+          print("Nucleotide sequences should only contain characters 'A', 'C', 'G', 'T'. ")
+          filePath2 = input("Please try again. Enter the file path to your second DNA sequence: ")
+          try:
+            with open(filePath2, 'r') as file:
+              seq2 = file.read()
+          except FileNotFoundError:
+            print(f"The file '{filePath2}' was not found. Try again!")
+          except Exception as e:
+            print(f"An error occurred: {e}") 
+          except KeyboardInterrupt:
+            print("User interrupted the input. Exiting.")
+            sys.exit() # Exit the program
 
-    # prompt user to define the 'maximum shift'
-    shiftAmount = input('Maximum shift to evaluate when matching nucleotides between sequences: ')
+# prompt user to define the 'maximum shift'
+    while True:
+        try:
+            shiftAmount = input('Maximum shift to evaluate when matching nucleotides between sequences: ')
+            maxShift = int(shiftAmount)
+            if maxShift < 0:
+                raise ValueError("Maximum shift value must be a positive integer.")
+            break
+        except ValueError as e:
+            print(e)
+            print("Try again with a valid maximum shift value.")
     try:
         maxShift = int(shiftAmount)
         # error if greater than size of smallest chain
@@ -89,7 +125,7 @@ def userInputs():
     # (display them seperatly)
 def seqMatch(seq1, seq2):
 
-    # calculates and prints the number of matches in original sequences 
+    # calculates and prints the number of matches in original sequences
     matchCount = 0
     seqLength = min(len(seq1), len(seq2))
     for position in range(seqLength):
@@ -117,7 +153,7 @@ def seqMatch(seq1, seq2):
 
     maxChain = seq1[maxStart:maxEnd + 1]
     print(f"Longest consecutive matching chain: {maxChain} (Length: {maxLength})")
-    return matchCount, maxLength, maxChain 
+    return matchCount, maxLength, maxChain
 
 
 
@@ -288,7 +324,7 @@ def longestChainShiftAll(seq1,seq2,maxShift,verbose=False):
         print('No matches were found')
 
     else:
-        
+
         if longestChainShiftSeq1:
             print(f'The longest chain was found by shifting sequence 1 by {longestChainShiftAmt}')
         else:

@@ -131,6 +131,9 @@ def seqMatch(seq1, seq2):
     for position in range(seqLength):
         if seq1[position] == seq2[position]:
             matchCount += 1
+    print('')
+    print('')
+    print('----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----')
     print(f"The original un-shifted sequences contain {matchCount} positional nucleotide matches.")
 
     # calculates the longest consecutive matching chain and prints the length as well as the chain
@@ -152,7 +155,8 @@ def seqMatch(seq1, seq2):
             currentLength = 0
 
     maxChain = seq1[maxStart:maxEnd + 1]
-    print(f"Longest consecutive matching chain: {maxChain} (Length: {maxLength})")
+    print(f"Longest chain: {maxChain} (Length: {maxLength})")
+    print("")
     return matchCount, maxLength, maxChain
 
 
@@ -219,6 +223,14 @@ def getLongestChain(matchString):
 
 def mostMatchesShiftAll(seq1,seq2,maxShift,verbose=False):
     # Test for most matches across all possible shift amounts in both directions
+
+    # initialization message
+    print('')
+    print('')
+    print('----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----')
+    print('Testing for the most matches across all possible shift amounts in both directions...')
+    print('')
+
     mostMatches = 0
 
 
@@ -235,7 +247,8 @@ def mostMatchesShiftAll(seq1,seq2,maxShift,verbose=False):
             mostMatchesMatching = matchString
 
         if verbose:
-            print(f'Testing {shiftAmount} shift of seq2:')
+            print(f'Testing {shiftAmount + 1} shift of seq2:')
+            print(f"{shiftAmount + 1} shift of seq2 results in {matchCount} nucleotide matches.")
             print('Matches:', matchString)
             print('   Seq1:', seq1_slice)
             print('   Seq2:', seq2_slice)
@@ -254,7 +267,8 @@ def mostMatchesShiftAll(seq1,seq2,maxShift,verbose=False):
             mostMatchesMatching = matchString
 
         if verbose:
-            print(f'Testing {shiftAmount} shift of seq1:')
+            print(f'Testing {shiftAmount + 1} shift of seq1:')
+            print(f"{shiftAmount + 1} shift of seq1 results in {matchCount} nucleotide matches.")
             print('Matches:', matchString)
             print('   Seq1:', seq1_slice)
             print('   Seq2:', seq2_slice)
@@ -265,20 +279,32 @@ def mostMatchesShiftAll(seq1,seq2,maxShift,verbose=False):
 
     else:
         if mostMatchesShiftSeq1:
-            print(f'The most total matches were found by shifting sequence 1 by {mostMatchesShiftAmt}')
+            print(f'The most matches were found by shifting sequence 1 by {mostMatchesShiftAmt + 1}')
         else:
-            print(f'The most total matches were found by shifting sequence 2 by {mostMatchesShiftAmt}')
+            print(f'The most matches were found by shifting sequence 2 by {mostMatchesShiftAmt + 1}')
 
+        print(f"The result is {mostMatches} nucleotide matches.")
         print('Matches:', mostMatchesMatching)
         print('   Seq1:', mostMatchesSeq1)
         print('   Seq2:', mostMatchesSeq2)
+        print('')
 
 
 
 def longestChainShiftAll(seq1,seq2,maxShift,verbose=False):
     # Test for longest chain across all possible shift amounts
     # Test for most matches across all possible shift amounts in both directions
+
+    # initialization message
+    print('')
+    print('')
+    print('----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----')
+    print('Testing for longest matching nucleotide chain...')
+    print('')
+
     lenLongestChainAll = 0
+    ChainSeq2 = ''
+    ChainSeq1 = ''
 
     # Search longestChain while shifting seq2
     longestChainShiftSeq1 = False
@@ -286,15 +312,18 @@ def longestChainShiftAll(seq1,seq2,maxShift,verbose=False):
         matchCount, matchString, seq1_slice, seq2_slice = shiftAndMatch(seq1, seq2, shiftAmount)
         lenLongestChain, longestChainStr = getLongestChain(matchString)
 
+
         if lenLongestChain > lenLongestChainAll:
             lenLongestChainAll = lenLongestChain
+            ChainSeq2 = longestChainStr
             longestChainShiftAmt = shiftAmount
             longestChainMatching = matchString
             longestChainSeq1 = seq1_slice
             longestChainSeq2 = seq2_slice
 
         if verbose:
-            print(f'Testing {shiftAmount} shift of seq2:')
+            print(f'Testing {shiftAmount + 1} shift of seq2:')
+            print(f"Longest chain: {longestChainStr} (Length: {lenLongestChain})")
             print('Matches:', matchString)
             print('   Seq1:', seq1_slice)
             print('   Seq2:', seq2_slice)
@@ -307,6 +336,7 @@ def longestChainShiftAll(seq1,seq2,maxShift,verbose=False):
 
         if lenLongestChain > lenLongestChainAll:
             lenLongestChainAll = lenLongestChain
+            ChainSeq2 = longestChainStr
             longestChainShiftSeq1 = True
             longestChainShiftAmt = shiftAmount
             longestChainMatching = matchString
@@ -314,7 +344,8 @@ def longestChainShiftAll(seq1,seq2,maxShift,verbose=False):
             longestChainSeq2 = seq2_slice
 
         if verbose:
-            print(f'Testing {shiftAmount} shift of seq1:')
+            print(f'Testing {shiftAmount + 1} shift of seq1:')
+            print(f"Longest chain: {longestChainStr} (Length: {lenLongestChain})")
             print('Matches:', matchString)
             print('   Seq1:', seq1_slice)
             print('   Seq2:', seq2_slice)
@@ -326,9 +357,11 @@ def longestChainShiftAll(seq1,seq2,maxShift,verbose=False):
     else:
 
         if longestChainShiftSeq1:
-            print(f'The longest chain was found by shifting sequence 1 by {longestChainShiftAmt}')
+            print(f'The longest matching chain was found by shifting sequence 1 by {longestChainShiftAmt + 1}')
+            print(f"Longest chain: {ChainSeq1} (Length: {lenLongestChainAll})")
         else:
-            print(f'The longest chain was found by shifting sequence 2 by {longestChainShiftAmt}')
+            print(f'The longest matching chain was found by shifting sequence 2 by {longestChainShiftAmt + 1}')
+            print(f"Longest chain: {ChainSeq2} (Length: {lenLongestChainAll})")
 
         print('Matches:', longestChainMatching)
         print('   Seq1:', longestChainSeq1)

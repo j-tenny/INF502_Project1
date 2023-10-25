@@ -2,10 +2,20 @@
 ## Overview
 This project involves writing a Python program to compare two DNA sequences and measure their similarity using two methods - number of matches and maximum contiguous chain. The program lets user to select parameters, read input sequences from console or file, handle exceptions, and neatly print the results.
 The program takes as input two DNA sequences, directly via user from files. 
-There are two straightforward measures:
+### Algorithm Design
+The key algorithms needed are:
 
 - NUMBER OF MATCHES
+  - Align sequences
+  - Count number of positions where characters are equal
 - MAXIMUM CONTIGUOUS CHAIN
+  - Align sequences
+  - Identify longest subsequence where characters match contiguously
+- APPLY SHIFTS
+  - Loop through different shift values
+  - Shift one sequence left/right and align with other
+  - Calculate number of matches and maximum chain for each shift
+  - Return best shift, number of matches and maximum chain
 
 ## Implementation
 The program is structured into the following key functions:
@@ -73,12 +83,16 @@ Prints descriptive error messages for user
 
 The program can be run as:
 ```python
-python dna_similarity.py
+python INF502Project1Group10.py
 ```
 The user is prompted to enter the file paths for two DNA sequence text files. For example:
 ```
 Please enter the file path to your .txt containing your first DNA sequence: sequence1.txt
+Sequence 1 contents:
+CTAGTTGACG
 Please enter the file path to your .txt containing your second DNA sequence: sequence2.txt
+Sequence 2 contents:
+TGGATTTGTG
 ```
 The contents of file should contain only the characters A, C, G and T representing a DNA sequence with correct file path. Otherwise, exceptions are raised.
 
@@ -134,4 +148,19 @@ Matches:     TT   G
    Seq2: TGGATTTGTG
 ```
 
+## Conclusion
+Our program does comparison of two detected DNA sequences and analyzes their similarity.
+For similarity we will check the counts of simple metrics – number of matching nucleotides and length of the longest matching subsequence.
+The user provides the input DNA sequences via text files and defines a parameter for maximum shift amount. The program then aligns the sequences with different shifts up to the max and calculates the similarity scores. The optimal alignments with maximum matches and longest chain are printed.
 
+The core innovation is in allowing the sequences to be aligned by sliding them relatively to each other. This approaches simulates the matching process that could occur if the sequences had been inserted/deleted at various points. Instead of simply doing a fixed alignment, the program will try out various alignments and choose the best one according to metrics that we will define. This high level functionality required developing lower level functionality such as slicing and shifting strings programmatically.
+
+Additionally, a key technical feature in this program is that the user interface validates user input and handles exceptions. User Input is tightly controlled via FileChooser classes, which only allow appropriate file selection. The file reading technique validates the characters read ( A,C,G,T) and the program acts accordingly on the detected characters. Any errors that may occur are caught and handled allowing the program to operate more smoothly.
+
+The code’s structure is modular and follows sound programming principles. The main functions are clearly separated into logical modules each with clear inputs and outputs. There is a clear function devoted to reading the sequences and one devoted to calculating base scores and something just to shifts and something just to output. An attempt was clearly made to break things up into logical parts and make things readable.
+
+This is a simple project but covers a number of foundational python skills: string manipulation, loops, conditionals, functions, and saving text to a file. It dumps a lot of requirements and details on the student, and requires them to think through the requirements, design logical algorithm, then translate those algorithms to working code. They must go from organizing and receiving input, to performing a large amount of computation in loops, to presenting output/results in a clear and organized fashion, and even saving text to a file.
+
+The goal of this project is to get started with basic DNA similarity. However, it can be thought of as a gentle pedagogical introduction to working with DNA sequences programmatically. There is a lot of scope to build on this foundation, including getting into more advanced molecular biology and machine learning approaches. The skills that are developed in this project are transferable across many technical fields.
+
+**NOTE: THIS PROJECT IS OPEN-SOURCE.**

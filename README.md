@@ -101,7 +101,7 @@ After the sequences are entered, the user is asked for a maximum shift amount:
 Maximum shift to evaluate when matching nucleotides between sequences: 1
 ```
 The maximum shift should be only positve integer.
-The program then prints the basic similarity scores before any shifts. For example:
+The program then prints the basic similarity scores before any shifts and some other similarity scores after shifts. For example:
 ```
 ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----
 The original un-shifted sequences contain 3 positional nucleotide matches.
